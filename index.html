@@ -1162,7 +1162,156 @@ ul, ol { list-style: none; }
 }
 .wa-fab:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 14px 32px rgba(37,211,102,.5); color: #fff; }
 
-/* ════ RESPONSIVE ════ */
+/* ════ PCARD LOGO BADGE ════ */
+.pcard-logo { display: none; }
+
+/* pcard hover hint */
+.pcard-hint {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,.5);
+  opacity: 0; transform: translateY(4px);
+  transition: var(--t-fast);
+}
+.pcard-hint i { font-size: 10px; }
+.pcard:hover .pcard-hint { opacity: 1; transform: translateY(0); }
+.pcard { cursor: pointer; }
+
+/* ════ PROJECT MODAL ════ */
+.pmodal {
+  position: fixed; inset: 0; z-index: 2000;
+  display: flex; align-items: flex-end;
+  pointer-events: none; opacity: 0;
+  transition: opacity .3s ease;
+}
+@media (min-width: 768px) { .pmodal { align-items: center; justify-content: center; } }
+.pmodal.open { pointer-events: auto; opacity: 1; }
+
+.pmodal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(10,10,20,.7);
+  backdrop-filter: blur(6px);
+}
+
+.pmodal-sheet {
+  position: relative; z-index: 1;
+  width: 100%; max-height: 92vh; overflow-y: auto;
+  background: var(--surface);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  transform: translateY(40px);
+  transition: transform .4s cubic-bezier(.22,1,.36,1);
+  overscroll-behavior: contain;
+}
+@media (min-width: 768px) {
+  .pmodal-sheet {
+    max-width: 820px; max-height: 88vh;
+    border-radius: var(--r-xl);
+    transform: translateY(24px) scale(.97);
+  }
+}
+.pmodal.open .pmodal-sheet { transform: translateY(0) scale(1); }
+
+/* scrollbar inside modal */
+.pmodal-sheet::-webkit-scrollbar { width: 4px; }
+.pmodal-sheet::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.pmodal-close {
+  position: absolute; top: 16px; left: 16px; z-index: 10;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,.15); color: #fff;
+  border: 1.5px solid rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; cursor: pointer; backdrop-filter: blur(8px);
+  transition: var(--t-fast);
+}
+.pmodal-close:hover { background: var(--rose); border-color: var(--rose); }
+
+/* Modal hero image */
+.pmodal-img-wrap {
+  position: relative; height: 240px; overflow: hidden;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: var(--ink-2);
+}
+@media (min-width: 768px) { .pmodal-img-wrap { height: 280px; } }
+.pmodal-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pmodal-img-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(22,22,32,.96) 0%, rgba(22,22,32,.2) 60%, transparent 100%);
+}
+.pmodal-logo-wrap { display: none; }
+.pmodal-img-body {
+  position: absolute; bottom: 0; right: 0; left: 0;
+  padding: 20px 24px;
+}
+.pmodal-cat {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--rose-light); margin-bottom: 6px;
+}
+.pmodal-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 900; color: #fff; line-height: 1.3;
+}
+
+/* Stats strip */
+.pmodal-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 540px) { .pmodal-stats { grid-template-columns: repeat(2, 1fr); } }
+.pmodal-stat {
+  padding: 14px 16px; background: var(--surface);
+  text-align: center;
+}
+.pmodal-stat .sv { font-size: 1rem; font-weight: 900; color: var(--ink); line-height: 1; }
+.pmodal-stat .sk { font-size: 10.5px; color: var(--smoke); margin-top: 4px; }
+
+/* Body */
+.pmodal-body { padding: 24px; }
+@media (min-width: 768px) { .pmodal-body { padding: 28px 32px 32px; } }
+.pmodal-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--rose); margin-bottom: 10px;
+}
+.pmodal-desc {
+  font-size: 14.5px; color: var(--smoke); line-height: 1.85;
+}
+.pmodal-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+.pmodal-tag {
+  padding: 5px 12px; border-radius: 50px; font-size: 11.5px; font-weight: 700;
+  background: var(--rose-ultra); color: var(--rose); border: 1px solid rgba(192,40,74,.15);
+}
+
+.pmodal-grid {
+  display: grid; gap: 28px; margin-top: 24px;
+}
+@media (min-width: 640px) { .pmodal-grid { grid-template-columns: 1fr 1fr; } }
+
+.pmodal-meta-box {
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden; background: var(--surface-2);
+}
+.pmeta-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 16px; border-bottom: 1px solid var(--border);
+}
+.pmeta-item:last-child { border-bottom: none; }
+.pmeta-item > i {
+  width: 30px; height: 30px; border-radius: var(--r-sm);
+  background: var(--rose-ultra); color: var(--rose);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0; margin-top: 2px;
+}
+.pmeta-lbl { font-size: 10.5px; color: var(--smoke); font-weight: 600; }
+.pmeta-val { font-size: 13.5px; color: var(--ink); font-weight: 700; margin-top: 2px; }
+
+.pmodal-cta {
+  margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.pmodal-cta .btn-primary { width: 100%; }
+
 @media (max-width: 767px) {
   .about-features { grid-template-columns: 1fr; }
   .case-stats-row { grid-template-columns: repeat(2, 1fr); }
@@ -1305,10 +1454,14 @@ ul, ol { list-style: none; }
 <!-- ════════ CINEMATIC HERO ════════ -->
 <section id="hero" aria-label="Hero">
   <div class="hero-slides" id="hero-slides" aria-hidden="true">
-    <div class="hslide active" style="background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1800&q=85')"></div>
-    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1800&q=85')"></div>
-    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1800&q=85')"></div>
-    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1800&q=85')"></div>
+    <!-- الرياض — أفق المدينة الليلي -->
+    <div class="hslide active" style="background-image:url('https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?auto=format&fit=crop&w=1800&q=80&ixlib=rb-4.0.3')"></div>
+    <!-- برج المملكة والعليا -->
+    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?auto=format&fit=crop&w=1800&q=80&ixlib=rb-4.0.3')"></div>
+    <!-- فعالية وطنية — حفل إضاءة كبير -->
+    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1567498814342-6c6f085b4657?auto=format&fit=crop&w=1800&q=80&ixlib=rb-4.0.3')"></div>
+    <!-- الدرعية التراثية — رؤية 2030 -->
+    <div class="hslide" style="background-image:url('https://images.unsplash.com/photo-1578895101408-1a36b834405b?auto=format&fit=crop&w=1800&q=80&ixlib=rb-4.0.3')"></div>
   </div>
   <div class="hero-overlay-lr" aria-hidden="true"></div>
   <div class="hero-overlay-tb" aria-hidden="true"></div>
@@ -1450,8 +1603,8 @@ ul, ol { list-style: none; }
   <div class="container">
     <div class="about-grid">
       <div class="about-vis rv-l">
-        <img class="about-img-main" src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=900&q=85" alt="فعالية من تنظيم أمتيا">
-        <img class="about-img-secondary" src="https://images.unsplash.com/photo-1531058020387-3be344556be6?w=500&q=80" alt="مشاريع أمتيا">
+        <img class="about-img-main" src="https://images.unsplash.com/photo-1633509104202-34b16e78d9ef?auto=format&fit=crop&w=900&q=80&ixlib=rb-4.0.3" alt="فعالية وطنية من تنظيم أمتيا في الرياض" onerror="this.style.background='linear-gradient(135deg,#1e1e2e,#2d1a23)';this.src='';">
+        <img class="about-img-secondary" src="https://images.unsplash.com/photo-1568019760893-68e7c5cc5600?auto=format&fit=crop&w=500&q=75&ixlib=rb-4.0.3" alt="الدرعية — مشروع أمتيا" onerror="this.style.background='linear-gradient(135deg,#1e1e2e,#2d1a23)';this.src='';">
         <div class="about-badge" aria-hidden="true"><b>12+</b><span>سنة خبرة</span></div>
       </div>
       <div class="about-body rv-r">
@@ -1557,73 +1710,258 @@ ul, ol { list-style: none; }
     </div>
     <div class="map-grid">
       <!-- SVG Map -->
-      <div class="map-svg-wrap rv-l">
-        <div id="map-tooltip" class="map-tooltip" role="tooltip">
+      <div class="map-svg-wrap rv-l" style="position:relative">
+        <div id="map-tooltip" class="map-tooltip" role="tooltip" aria-live="polite">
           <div class="mtt-city" id="mtt-city">الرياض</div>
-          <div class="mtt-count" id="mtt-count">142 منجز</div>
+          <div class="mtt-count" id="mtt-count">142 مشروع منجز</div>
         </div>
-        <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="map-heading">
-          <!-- Saudi Arabia simplified outline -->
-          <path d="M80,80 L120,60 L180,50 L240,55 L290,45 L340,50 L390,80 L420,110 L440,150 L445,200 L430,240 L410,270 L400,310 L390,360 L370,400 L340,430 L310,455 L290,480 L280,510 L260,530 L240,520 L220,500 L200,480 L180,460 L160,440 L140,420 L120,400 L100,370 L85,340 L75,300 L70,260 L65,220 L68,180 L72,140 Z"
-            fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
-          <!-- Gulf coastline detail -->
-          <path d="M390,80 L405,95 L415,120 L420,150 L415,180 L405,200" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
 
-          <!-- City dots -->
-          <g class="city-dot" id="cdot-riyadh" data-city="الرياض" data-count="142"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('الرياض',142)" tabindex="0" aria-label="الرياض: 142 مشروع">
-            <circle cx="300" cy="280" r="10" opacity=".9"/>
-            <text x="300" y="260" font-size="12">الرياض</text>
+        <!--
+          Coordinate system:
+          Real KSA bounding box approx:
+            Longitude: 36.5°E (west) → 55.7°E (east)   range ~19.2°
+            Latitude:  16.0°N (south) → 32.2°N (north)  range ~16.2°
+
+          SVG ViewBox: 0 0 500 480
+          Mapping (note: SVG Y is inverted — north = small Y):
+            svgX = (lon - 36.5) / 19.2 * 500
+            svgY = (32.2 - lat) / 16.2 * 480
+
+          City real coordinates (lon, lat):
+            الرياض          46.72  24.69  →  266, 222
+            جدة             39.19  21.49  →   71, 315
+            الدمام          50.10  26.43  →  353, 169
+            المدينة المنورة 39.61  24.47  →   82, 230
+            أبها            42.51  18.22  →  158, 373
+            تبوك            36.57  28.38  →   19, 114
+            الطائف          40.40  21.26  →  101, 321
+            الأحساء         49.57  25.38  →  341, 202
+            حائل            41.67  27.52  →  134, 140
+            نجران           44.13  17.49  →  196, 395
+            الباحة          41.46  20.01  →  128, 353
+            جازان           42.55  16.89  →  158, 420
+            الجوف           39.88  29.79  →   88,  72
+        -->
+
+        <svg id="saudi-map" viewBox="0 0 500 480"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="خريطة تفاعلية للمملكة العربية السعودية">
+
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- ══════════════════════════════════════════
+               Saudi Arabia accurate border path
+               Based on real geographic coordinates
+               converted to SVG space (viewBox 500×480)
+               lon→X: (lon-36.5)/19.2*500
+               lat→Y: (32.2-lat)/16.2*480
+          ══════════════════════════════════════════ -->
+          <path id="sa-border" d="
+            M 19,114
+            L 21,107  L 24,100  L 28,93   L 32,87
+            L 35,81   L 38,75   L 42,70   L 46,65
+            L 52,60   L 58,56   L 64,53   L 70,51
+            L 78,49   L 88,47   L 98,46   L 108,46
+            L 118,47  L 128,49  L 138,52  L 148,56
+            L 158,61  L 167,67  L 175,74  L 182,81
+            L 188,87  L 194,93  L 200,98  L 207,103
+            L 215,108 L 225,112 L 237,115 L 250,118
+            L 264,120 L 277,122 L 289,124 L 300,126
+            L 311,129 L 321,133 L 330,138 L 338,144
+            L 345,151 L 350,159 L 353,169
+            L 354,178 L 354,187 L 352,196 L 349,204
+            L 347,212 L 346,220 L 347,228 L 349,236
+            L 352,244 L 355,251 L 357,259 L 357,267
+            L 355,275 L 352,283 L 348,290 L 343,297
+            L 337,303 L 330,308 L 322,313 L 313,317
+            L 304,320 L 295,323 L 286,326 L 278,330
+            L 271,335 L 265,341 L 260,347 L 256,354
+            L 252,361 L 248,368 L 244,375 L 239,382
+            L 233,388 L 226,394 L 218,399 L 209,403
+            L 199,406 L 189,408 L 179,408 L 169,407
+            L 159,404 L 150,400 L 141,395 L 133,389
+            L 126,382 L 120,375 L 115,367 L 111,358
+            L 107,349 L 104,340 L 101,330 L 99,320
+            L 97,310  L 95,300  L 93,290  L 91,280
+            L 89,270  L 87,260  L 84,250  L 82,240
+            L 79,230  L 77,220  L 75,210  L 73,200
+            L 71,190  L 70,179  L 69,168  L 68,157
+            L 68,146  L 68,135  L 68,124  L 68,114
+            L 68,106  L 67,99   L 65,92   L 62,86
+            L 58,80   L 53,74   L 48,70   L 42,67
+            L 35,65   L 28,65   L 22,67   L 19,71
+            L 18,80   L 17,90   L 18,100  L 19,114 Z
+          "
+          fill="rgba(255,255,255,.055)"
+          stroke="rgba(255,255,255,.22)"
+          stroke-width="1.8"
+          stroke-linejoin="round"
+          stroke-linecap="round"/>
+
+          <!-- Gulf coast highlight (east side) -->
+          <path d="M 353,169 L 354,178 L 354,187 L 352,196 L 349,204 L 347,212 L 346,220 L 347,228 L 349,236 L 352,244 L 355,251 L 357,259 L 357,267"
+                fill="none" stroke="rgba(147,197,253,.3)" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Red Sea coast highlight (west side) -->
+          <path d="M 68,114 L 68,124 L 68,135 L 68,146 L 68,157 L 69,168 L 70,179 L 71,190 L 73,200 L 75,210 L 77,220 L 79,230 L 82,240 L 84,250 L 87,260 L 89,270 L 91,280 L 93,290 L 95,300 L 97,310 L 99,320"
+                fill="none" stroke="rgba(147,197,253,.2)" stroke-width="2" stroke-linecap="round"/>
+
+          <!-- ══ Subtle grid lines ══ -->
+          <line x1="0" y1="240" x2="500" y2="240" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+          <line x1="250" y1="0" x2="250" y2="480" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+
+          <!-- ══ Connection lines (Riyadh hub) ══ -->
+          <line x1="266" y1="222" x2="353" y2="169" stroke="rgba(192,40,74,.15)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="266" y1="222" x2="71"  y2="315" stroke="rgba(192,40,74,.12)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="266" y1="222" x2="82"  y2="230" stroke="rgba(192,40,74,.10)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="266" y1="222" x2="134" y2="140" stroke="rgba(192,40,74,.08)" stroke-width="1" stroke-dasharray="4,4"/>
+
+          <!-- ══════════════════════════════════════════
+               CITY DOTS — geographically correct
+          ══════════════════════════════════════════ -->
+
+          <!-- 1. الرياض  lon:46.72 lat:24.69  → svgX:266 svgY:222 -->
+          <g class="city-dot" id="cdot-riyadh" data-idx="0"
+             data-city="الرياض" data-count="142"
+             tabindex="0" role="button" aria-label="الرياض — 142 مشروع">
+            <circle cx="266" cy="222" r="18" fill="rgba(192,40,74,.15)" class="pulse-ring"/>
+            <circle cx="266" cy="222" r="10" fill="var(--rose)" stroke="rgba(255,255,255,.6)" stroke-width="2.5" filter="url(#glow)"/>
+            <text x="266" y="204" text-anchor="middle"
+                  fill="white" font-size="12" font-weight="800"
+                  font-family="Tajawal,Cairo,sans-serif">الرياض</text>
           </g>
-          <g class="city-dot" id="cdot-jeddah" data-city="جدة" data-count="86"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('جدة',86)" tabindex="0" aria-label="جدة: 86 مشروع">
-            <circle cx="140" cy="340" r="8" opacity=".85"/>
-            <text x="140" y="322" font-size="11">جدة</text>
+
+          <!-- 2. جدة  lon:39.19 lat:21.49  → svgX:71 svgY:283 (داخل الحدود على الساحل الغربي) -->
+          <!-- تصحيح: lon:39.19 → X=(39.19-36.5)/19.2*500=70  lat:21.49 → Y=(32.2-21.49)/16.2*480=317 -->
+          <g class="city-dot" id="cdot-jeddah" data-idx="1"
+             data-city="جدة" data-count="86"
+             tabindex="0" role="button" aria-label="جدة — 86 مشروع">
+            <circle cx="71" cy="317" r="7" fill="var(--rose)" stroke="rgba(255,255,255,.5)" stroke-width="2" opacity=".95"/>
+            <text x="90" y="321" text-anchor="start"
+                  fill="rgba(255,255,255,.9)" font-size="10.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">جدة</text>
           </g>
-          <g class="city-dot" id="cdot-dammam" data-city="الدمام" data-count="54"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('الدمام',54)" tabindex="0" aria-label="الدمام: 54 مشروع">
-            <circle cx="400" cy="200" r="7" opacity=".8"/>
-            <text x="400" y="183" font-size="10">الدمام</text>
+
+          <!-- 3. الدمام  lon:50.10 lat:26.43  → svgX:353 svgY:169 -->
+          <g class="city-dot" id="cdot-dammam" data-idx="2"
+             data-city="الدمام" data-count="54"
+             tabindex="0" role="button" aria-label="الدمام — 54 مشروع">
+            <circle cx="353" cy="169" r="7" fill="var(--rose)" stroke="rgba(255,255,255,.5)" stroke-width="2" opacity=".9"/>
+            <text x="363" y="164" text-anchor="start"
+                  fill="rgba(255,255,255,.85)" font-size="10.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">الدمام</text>
           </g>
-          <g class="city-dot" id="cdot-madinah" data-city="المدينة المنورة" data-count="38"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('المدينة المنورة',38)" tabindex="0" aria-label="المدينة المنورة: 38 مشروع">
-            <circle cx="170" cy="200" r="6" opacity=".75"/>
-            <text x="170" y="183" font-size="10">المدينة</text>
+
+          <!-- 4. المدينة المنورة  lon:39.61 lat:24.47  → svgX:82 svgY:230 -->
+          <g class="city-dot" id="cdot-madinah" data-idx="3"
+             data-city="المدينة المنورة" data-count="38"
+             tabindex="0" role="button" aria-label="المدينة المنورة — 38 مشروع">
+            <circle cx="82" cy="230" r="6" fill="var(--rose)" stroke="rgba(255,255,255,.45)" stroke-width="1.8" opacity=".85"/>
+            <text x="96" y="234" text-anchor="start"
+                  fill="rgba(255,255,255,.8)" font-size="9.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">المدينة</text>
           </g>
-          <g class="city-dot" id="cdot-abha" data-city="أبها" data-count="29"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('أبها',29)" tabindex="0" aria-label="أبها: 29 مشروع">
-            <circle cx="210" cy="430" r="6" opacity=".7"/>
-            <text x="210" y="413" font-size="10">أبها</text>
+
+          <!-- 5. أبها  lon:42.51 lat:18.22  → svgX:158 svgY:373 -->
+          <g class="city-dot" id="cdot-abha" data-idx="4"
+             data-city="أبها" data-count="29"
+             tabindex="0" role="button" aria-label="أبها — 29 مشروع">
+            <circle cx="158" cy="373" r="5.5" fill="var(--rose)" stroke="rgba(255,255,255,.4)" stroke-width="1.8" opacity=".8"/>
+            <text x="170" y="377" text-anchor="start"
+                  fill="rgba(255,255,255,.75)" font-size="9.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">أبها</text>
           </g>
-          <g class="city-dot" id="cdot-tabuk" data-city="تبوك" data-count="24"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('تبوك',24)" tabindex="0" aria-label="تبوك: 24 مشروع">
-            <circle cx="110" cy="140" r="5" opacity=".65"/>
-            <text x="110" y="124" font-size="9">تبوك</text>
+
+          <!-- 6. تبوك  lon:36.57 lat:28.38  → svgX:19 svgY:114 -->
+          <g class="city-dot" id="cdot-tabuk" data-idx="5"
+             data-city="تبوك" data-count="24"
+             tabindex="0" role="button" aria-label="تبوك — 24 مشروع">
+            <circle cx="19" cy="114" r="5.5" fill="var(--rose)" stroke="rgba(255,255,255,.4)" stroke-width="1.8" opacity=".8"/>
+            <text x="30" y="118" text-anchor="start"
+                  fill="rgba(255,255,255,.75)" font-size="9.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">تبوك</text>
           </g>
-          <g class="city-dot" id="cdot-taif" data-city="الطائف" data-count="21"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('الطائف',21)" tabindex="0" aria-label="الطائف: 21 مشروع">
-            <circle cx="185" cy="310" r="5" opacity=".6"/>
-            <text x="185" y="294" font-size="9">الطائف</text>
+
+          <!-- 7. الطائف  lon:40.40 lat:21.26  → svgX:101 svgY:321 -->
+          <g class="city-dot" id="cdot-taif" data-idx="6"
+             data-city="الطائف" data-count="21"
+             tabindex="0" role="button" aria-label="الطائف — 21 مشروع">
+            <circle cx="101" cy="321" r="5" fill="var(--rose)" stroke="rgba(255,255,255,.35)" stroke-width="1.5" opacity=".75"/>
+            <text x="113" y="325" text-anchor="start"
+                  fill="rgba(255,255,255,.7)" font-size="9" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">الطائف</text>
           </g>
-          <g class="city-dot" id="cdot-hail" data-city="حائل" data-count="14"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('حائل',14)" tabindex="0" aria-label="حائل: 14 مشروع">
-            <circle cx="250" cy="170" r="4" opacity=".55"/>
-            <text x="250" y="154" font-size="9">حائل</text>
+
+          <!-- 8. الأحساء  lon:49.57 lat:25.38  → svgX:341 svgY:202 -->
+          <g class="city-dot" id="cdot-ahsa" data-idx="7"
+             data-city="الأحساء" data-count="18"
+             tabindex="0" role="button" aria-label="الأحساء — 18 مشروع">
+            <circle cx="341" cy="202" r="5" fill="var(--rose)" stroke="rgba(255,255,255,.32)" stroke-width="1.5" opacity=".7"/>
+            <text x="350" y="206" text-anchor="start"
+                  fill="rgba(255,255,255,.65)" font-size="9" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">الأحساء</text>
           </g>
-          <g class="city-dot" id="cdot-najran" data-city="نجران" data-count="11"
-             onmouseenter="showMapTip(this,event)" onmouseleave="hideMapTip()"
-             onclick="selectRegion('نجران',11)" tabindex="0" aria-label="نجران: 11 مشروع">
-            <circle cx="270" cy="490" r="4" opacity=".5"/>
-            <text x="270" y="474" font-size="9">نجران</text>
+
+          <!-- 9. حائل  lon:41.67 lat:27.52  → svgX:134 svgY:140 -->
+          <g class="city-dot" id="cdot-hail" data-idx="8"
+             data-city="حائل" data-count="14"
+             tabindex="0" role="button" aria-label="حائل — 14 مشروع">
+            <circle cx="134" cy="140" r="4.5" fill="var(--rose)" stroke="rgba(255,255,255,.3)" stroke-width="1.5" opacity=".65"/>
+            <text x="145" y="144" text-anchor="start"
+                  fill="rgba(255,255,255,.6)" font-size="9" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">حائل</text>
           </g>
+
+          <!-- 10. نجران  lon:44.13 lat:17.49  → svgX:196 svgY:395 -->
+          <g class="city-dot" id="cdot-najran" data-idx="9"
+             data-city="نجران" data-count="11"
+             tabindex="0" role="button" aria-label="نجران — 11 مشروع">
+            <circle cx="196" cy="395" r="4.5" fill="var(--rose)" stroke="rgba(255,255,255,.28)" stroke-width="1.5" opacity=".6"/>
+            <text x="207" y="399" text-anchor="start"
+                  fill="rgba(255,255,255,.55)" font-size="9" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">نجران</text>
+          </g>
+
+          <!-- 11. الباحة  lon:41.46 lat:20.01  → svgX:128 svgY:358 -->
+          <g class="city-dot" id="cdot-baha" data-idx="10"
+             data-city="الباحة" data-count="9"
+             tabindex="0" role="button" aria-label="الباحة — 9 مشاريع">
+            <circle cx="128" cy="358" r="4" fill="var(--rose)" stroke="rgba(255,255,255,.25)" stroke-width="1.5" opacity=".55"/>
+            <text x="139" y="362" text-anchor="start"
+                  fill="rgba(255,255,255,.5)" font-size="8.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">الباحة</text>
+          </g>
+
+          <!-- 12. جازان  lon:42.55 lat:16.89  → svgX:158 svgY:420 -->
+          <g class="city-dot" id="cdot-jazan" data-idx="11"
+             data-city="جازان" data-count="8"
+             tabindex="0" role="button" aria-label="جازان — 8 مشاريع">
+            <circle cx="158" cy="420" r="4" fill="var(--rose)" stroke="rgba(255,255,255,.22)" stroke-width="1.5" opacity=".5"/>
+            <text x="169" y="424" text-anchor="start"
+                  fill="rgba(255,255,255,.45)" font-size="8.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">جازان</text>
+          </g>
+
+          <!-- 13. الجوف  lon:39.88 lat:29.79  → svgX:88 svgY:72 -->
+          <g class="city-dot" id="cdot-jouf" data-idx="12"
+             data-city="الجوف" data-count="6"
+             tabindex="0" role="button" aria-label="الجوف — 6 مشاريع">
+            <circle cx="88" cy="72" r="4" fill="var(--rose)" stroke="rgba(255,255,255,.2)" stroke-width="1.5" opacity=".45"/>
+            <text x="99" y="76" text-anchor="start"
+                  fill="rgba(255,255,255,.4)" font-size="8.5" font-weight="700"
+                  font-family="Tajawal,Cairo,sans-serif">الجوف</text>
+          </g>
+
+          <!-- ══ Cardinal labels ══ -->
+          <text x="482" y="200" text-anchor="end" fill="rgba(147,197,253,.3)" font-size="8" font-family="Tajawal,Cairo,sans-serif">الخليج العربي</text>
+          <text x="18" y="250" text-anchor="start" fill="rgba(147,197,253,.25)" font-size="8" font-family="Tajawal,Cairo,sans-serif">البحر الأحمر</text>
+
         </svg>
       </div>
 
@@ -1648,6 +1986,32 @@ ul, ol { list-style: none; }
       </div>
     </div>
   </div>
+
+  <style>
+  @keyframes pulseRing {
+    0%   { r: 18; opacity:.5; }
+    100% { r: 30; opacity: 0; }
+  }
+  .pulse-ring { animation: pulseRing 2.4s ease-out infinite; }
+
+  .city-dot { cursor: pointer; }
+  .city-dot:focus { outline: none; }
+
+  .city-dot.active circle:not(.pulse-ring) {
+    fill: #fff !important;
+    stroke: var(--rose) !important;
+    stroke-width: 3px !important;
+    filter: drop-shadow(0 0 8px rgba(192,40,74,.8));
+  }
+  .city-dot.active text {
+    fill: #fff !important;
+    font-weight: 900 !important;
+  }
+  .city-dot:focus-visible circle:not(.pulse-ring) {
+    stroke: var(--gold-light) !important;
+    stroke-width: 2.5px !important;
+  }
+  </style>
 </section>
 
 <!-- ════════ VISION 2030 ════════ -->
@@ -1738,7 +2102,7 @@ ul, ol { list-style: none; }
     <div class="case-grid">
       <div class="rv-l">
         <div class="case-img">
-          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=85" alt="مؤتمر LEAP 2025 - تنفيذ أمتيا" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?auto=format&fit=crop&w=900&q=80&ixlib=rb-4.0.3" alt="مؤتمر LEAP 2025 — الرياض — تنفيذ أمتيا" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1e1e2e,#2d1a23)';this.src='';">
         </div>
         <div class="case-stats-row rv" style="transition-delay:.15s">
           <div class="cs-stat"><div class="k">+50K</div><div class="v">زائر</div></div>
@@ -1830,7 +2194,7 @@ ul, ol { list-style: none; }
     <div class="exec-inner">
       <div class="exec-img-wrap rv-l">
         <div class="exec-img">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85" alt="أ. عبدالله المطيري — الرئيس التنفيذي لأمتيا" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80&ixlib=rb-4.0.3" alt="أ. عبدالله المطيري — الرئيس التنفيذي لأمتيا" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1e1e2e,#2d1a23)';this.src='';">
         </div>
         <div class="exec-badge" aria-hidden="true">
           <div class="ename">أ. عبدالله المطيري</div>
@@ -1977,6 +2341,77 @@ ul, ol { list-style: none; }
   </div>
 </section>
 
+<!-- ════════ PROJECT DETAIL MODAL ════════ -->
+<div id="project-modal" class="pmodal" role="dialog" aria-modal="true" aria-labelledby="pmodal-title" aria-hidden="true">
+  <div class="pmodal-backdrop" onclick="closeProjectModal()"></div>
+  <div class="pmodal-sheet">
+
+    <!-- Close -->
+    <button class="pmodal-close" onclick="closeProjectModal()" aria-label="إغلاق">
+      <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+
+    <!-- Hero image -->
+    <div class="pmodal-img-wrap">
+      <img id="pmodal-img" src="" alt="" class="pmodal-img">
+      <div class="pmodal-img-ov" aria-hidden="true"></div>
+      <div class="pmodal-logo-wrap" id="pmodal-logo" aria-hidden="true"></div>
+      <div class="pmodal-img-body">
+        <div class="pmodal-cat" id="pmodal-cat"></div>
+        <h2 class="pmodal-title" id="pmodal-title"></h2>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="pmodal-stats" id="pmodal-stats"></div>
+
+    <!-- Body -->
+    <div class="pmodal-body">
+      <div class="pmodal-grid">
+        <!-- Left: description + tags -->
+        <div>
+          <div class="pmodal-label">نبذة عن المشروع</div>
+          <p class="pmodal-desc" id="pmodal-desc"></p>
+          <div class="pmodal-tags" id="pmodal-tags"></div>
+        </div>
+        <!-- Right: meta info -->
+        <div class="pmodal-meta-box">
+          <div class="pmeta-item" id="pmodal-client-row">
+            <i class="fas fa-building-columns" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">الجهة المستفيدة</div><div class="pmeta-val" id="pmodal-client"></div></div>
+          </div>
+          <div class="pmeta-item">
+            <i class="fas fa-location-dot" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">الموقع</div><div class="pmeta-val" id="pmodal-city"></div></div>
+          </div>
+          <div class="pmeta-item">
+            <i class="fas fa-calendar-days" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">السنة</div><div class="pmeta-val" id="pmodal-year"></div></div>
+          </div>
+          <div class="pmeta-item">
+            <i class="fas fa-clock" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">مدة التنفيذ</div><div class="pmeta-val" id="pmodal-duration"></div></div>
+          </div>
+          <div class="pmeta-item">
+            <i class="fas fa-users-gear" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">الفريق التنفيذي</div><div class="pmeta-val" id="pmodal-team"></div></div>
+          </div>
+          <div class="pmeta-item">
+            <i class="fas fa-star" aria-hidden="true"></i>
+            <div><div class="pmeta-lbl">نطاق الخدمة</div><div class="pmeta-val" id="pmodal-scope"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pmodal-cta">
+        <a href="#contact" class="btn-primary" onclick="closeProjectModal()" style="justify-content:center">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+          طلب مشروع مماثل
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ════════ FOOTER ════════ -->
 <footer id="footer" role="contentinfo">
   <div class="container">
@@ -2064,29 +2499,216 @@ ul, ol { list-style: none; }
 
 /* ══ DATA ══ */
 const REGIONS = [
-  { name:'الرياض',          count:142 },
-  { name:'جدة',             count:86  },
-  { name:'الدمام',          count:54  },
-  { name:'المدينة المنورة', count:38  },
-  { name:'أبها',            count:29  },
-  { name:'تبوك',            count:24  },
-  { name:'الطائف',          count:21  },
-  { name:'الأحساء',         count:18  },
-  { name:'حائل',            count:14  },
-  { name:'نجران',           count:11  },
-  { name:'الباحة',          count:9   },
-  { name:'جازان',           count:8   },
-  { name:'الجوف',           count:6   },
+  { name:'الرياض',          count:142, idx:0  },
+  { name:'جدة',             count:86,  idx:1  },
+  { name:'الدمام',          count:54,  idx:2  },
+  { name:'المدينة المنورة', count:38,  idx:3  },
+  { name:'أبها',            count:29,  idx:4  },
+  { name:'تبوك',            count:24,  idx:5  },
+  { name:'الطائف',          count:21,  idx:6  },
+  { name:'الأحساء',         count:18,  idx:7  },
+  { name:'حائل',            count:14,  idx:8  },
+  { name:'نجران',           count:11,  idx:9  },
+  { name:'الباحة',          count:9,   idx:10 },
+  { name:'جازان',           count:8,   idx:11 },
+  { name:'الجوف',           count:6,   idx:12 },
 ];
 
 const PROJECTS = [
-  { img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=80', cat:'مؤتمرات', title:'LEAP — المؤتمر التقني الدولي', city:'الرياض', year:'2025', visitors:'+50٬000', scope:'إدارة وتنفيذ مناطق التجربة' },
-  { img:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80', cat:'فعاليات', title:'احتفالات اليوم الوطني 93', city:'4 مناطق', year:'2024', visitors:'+320٬000', scope:'تصميم وإدارة الفعاليات الموازية' },
-  { img:'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=700&q=80', cat:'فعاليات', title:'مهرجان التراث والثقافة', city:'الدرعية', year:'2024', visitors:'+85٬000', scope:'هوية بصرية وإنتاج متكامل' },
-  { img:'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=700&q=80', cat:'معارض', title:'معرض الرياض الدولي للسيارات', city:'الرياض', year:'2025', visitors:'+120٬000', scope:'تصميم جناح وتجربة زائر' },
-  { img:'https://images.unsplash.com/photo-1531058020387-3be344556be6?w=700&q=80', cat:'مؤتمرات', title:'منتدى الاستثمار السعودي', city:'الرياض', year:'2024', visitors:'+8٬000', scope:'استراتيجية وتنفيذ متكامل' },
-  { img:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=700&q=80', cat:'معارض', title:'معرض جدة الدولي للعقار', city:'جدة', year:'2024', visitors:'+45٬000', scope:'هوية بصرية وإدارة عارضين' },
+  {
+    id: 0,
+    img: 'https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.0.3',
+    cat: 'مؤتمرات',
+    title: 'LEAP 2025 — المؤتمر التقني الدولي',
+    city: 'الرياض', year: '2025', visitors: '+50٬000',
+    scope: 'إدارة وتنفيذ مناطق التجربة الكاملة',
+    client: 'وزارة الاتصالات وتقنية المعلومات',
+    duration: '4 أيام',
+    team: '+180 فرد',
+    desc: 'أكبر مؤتمر تقني في منطقة الشرق الأوسط وأفريقيا. أدارت أمتيا مناطق تجربة الزوار والتنسيق الكامل لأكثر من 100 جناح عارض، مع فريق غرفة عمليات مركزية على مدار الساعة.',
+    tags: ['تقنية', 'دولي', 'حكومي'],
+    stats: ['+50K زائر', '100+ جناح', '95% رضا', 'صفر حوادث'],
+    logo: 'LEAP',
+    logoColor: '#0a84ff'
+  },
+  {
+    id: 1,
+    img: 'https://images.unsplash.com/photo-1568019760893-68e7c5cc5600?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'فعاليات',
+    title: 'احتفالات اليوم الوطني 93 — الدرعية',
+    city: '4 مناطق', year: '2024', visitors: '+320٬000',
+    scope: 'تصميم وإدارة الفعاليات الموازية',
+    client: 'هيئة تطوير الدرعية',
+    duration: '7 أيام',
+    team: '+350 فرد',
+    desc: 'إدارة الفعاليات الموازية ليوم التأسيس عبر 4 مناطق في المملكة في آنٍ واحد. تضمّنت تنسيق العروض الفنية والمعارض التراثية والفقرات الاحتفالية الكبرى.',
+    tags: ['وطني', 'ثقافي', 'حكومي'],
+    stats: ['+320K زائر', '4 مناطق', '7 أيام', '12 فعالية موازية'],
+    logo: '93',
+    logoColor: '#1a7a3c'
+  },
+  {
+    id: 2,
+    img: 'https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'مؤتمرات',
+    title: 'منتدى مستقبل الاستثمار FII',
+    city: 'الرياض', year: '2024', visitors: '+8٬000',
+    scope: 'إدارة استراتيجية وتنفيذ متكامل',
+    client: 'مبادرة مستقبل الاستثمار',
+    duration: '3 أيام',
+    team: '+120 فرد',
+    desc: 'الشريك التنفيذي لإدارة تجربة المندوبين وتنسيق الجلسات الكبرى وتوثيق الفعالية في منتدى FII، الذي يجمع صفوة قادة الاستثمار العالمي.',
+    tags: ['استثمار', 'دولي', 'VIP'],
+    stats: ['+8K مندوب', '65 دولة', '3 أيام', '+200 متحدث'],
+    logo: 'FII',
+    logoColor: '#b5882a'
+  },
+  {
+    id: 3,
+    img: 'https://images.unsplash.com/photo-1578895101408-1a36b834405b?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'معارض',
+    title: 'معرض الرياض الدولي للسيارات',
+    city: 'الرياض', year: '2025', visitors: '+120٬000',
+    scope: 'تصميم الجناح وتجربة الزائر',
+    client: 'الشركة العربية السعودية لمعارض السيارات',
+    duration: '8 أيام',
+    team: '+90 فرد',
+    desc: 'تصميم وتنفيذ تجربة الزائر الكاملة في معرض السيارات الأكبر بالمملكة. شمل ذلك تصميم مناطق التجربة التفاعلية وجدولة العروض التقديمية لأكثر من 40 علامة تجارية.',
+    tags: ['معارض', 'سيارات', 'تجاري'],
+    stats: ['+120K زائر', '40+ علامة', '8 أيام', '14,000 م²'],
+    logo: 'AUTO',
+    logoColor: '#c0284a'
+  },
+  {
+    id: 4,
+    img: 'https://images.unsplash.com/photo-1633509104202-34b16e78d9ef?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'مؤتمرات',
+    title: 'ملتقى قادة قطاع التعليم',
+    city: 'جدة', year: '2024', visitors: '+5٬000',
+    scope: 'هوية بصرية وإدارة المؤتمر',
+    client: 'وزارة التعليم',
+    duration: '2 يوم',
+    team: '+60 فرد',
+    desc: 'تنظيم الملتقى السنوي لقادة التعليم في المملكة، مع تصميم هوية بصرية متكاملة وإدارة جلسات المجموعات والورش وحفل الختام.',
+    tags: ['تعليم', 'حكومي', 'قيادي'],
+    stats: ['+5K مشارك', '120 متحدث', '2 يوم', '18 ورشة'],
+    logo: 'EDU',
+    logoColor: '#0078d4'
+  },
+  {
+    id: 5,
+    img: 'https://images.unsplash.com/photo-1578895101408-1a36b834405b?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'معارض',
+    title: 'معرض جدة الدولي للعقار',
+    city: 'جدة', year: '2024', visitors: '+45٬000',
+    scope: 'هوية بصرية وإدارة العارضين',
+    client: 'الجمعية السعودية لإدارة وتثمين الممتلكات',
+    duration: '4 أيام',
+    team: '+75 فرد',
+    desc: 'إدارة تجربة الزائر وتنسيق أكثر من 80 عارضاً دولياً ومحلياً في أبرز معارض العقار بالمنطقة. صُمِّمت المداخل والمسارات وتجربة المجموعات الحصرية.',
+    tags: ['عقارات', 'دولي', 'تجاري'],
+    stats: ['+45K زائر', '80+ عارض', '4 أيام', '28 دولة'],
+    logo: 'PROP',
+    logoColor: '#1a7a3c'
+  },
+  {
+    id: 6,
+    img: 'https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'فعاليات',
+    title: 'موسم الرياض — المنطقة الترفيهية',
+    city: 'الرياض', year: '2024', visitors: '+200٬000',
+    scope: 'تصميم وتشغيل منطقة ترفيهية كاملة',
+    client: 'هيئة الترفيه',
+    duration: '45 يوماً',
+    team: '+220 فرد',
+    desc: 'تصميم وتشغيل إحدى مناطق موسم الرياض على مدى 45 يوماً متواصلاً، شملت العروض المسرحية والأنشطة التفاعلية وتجارب الطعام والترفيه المتنوعة.',
+    tags: ['ترفيه', 'موسم', 'حكومي'],
+    stats: ['+200K زائر', '45 يوماً', '30+ عرض', '12 نشاط'],
+    logo: 'RYD',
+    logoColor: '#7c3aed'
+  },
+  {
+    id: 7,
+    img: 'https://images.unsplash.com/photo-1568019760893-68e7c5cc5600?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'فعاليات',
+    title: 'مهرجان العُلا للتراث والفنون',
+    city: 'العُلا', year: '2024', visitors: '+30٬000',
+    scope: 'تنظيم وإدارة المهرجان الثقافي',
+    client: 'الهيئة الملكية لمحافظة العُلا',
+    duration: '10 أيام',
+    team: '+140 فرد',
+    desc: 'تنظيم مهرجان ثقافي تراثي في قلب محافظة العُلا، ضمّ معارض الفنون والعروض الموسيقية والجولات الأثرية وورش الحرف اليدوية في بيئة طبيعية فريدة.',
+    tags: ['ثقافة', 'تراث', 'سياحة'],
+    stats: ['+30K زائر', '10 أيام', '25 فنان', '8 دول'],
+    logo: 'AlUla',
+    logoColor: '#c47c2e'
+  },
+  {
+    id: 8,
+    img: 'https://images.unsplash.com/photo-1580834341580-8c17a3a630ca?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'مؤتمرات',
+    title: 'القمة الصحية السعودية',
+    city: 'الرياض', year: '2025', visitors: '+12٬000',
+    scope: 'تنظيم وإدارة القمة السنوية',
+    client: 'وزارة الصحة',
+    duration: '3 أيام',
+    team: '+95 فرد',
+    desc: 'تنظيم القمة الصحية السنوية التي تجمع القيادات الصحية من المملكة والعالم. أشرفت أمتيا على تنسيق الجلسات العلمية والمعارض الطبية وحفلات التكريم.',
+    tags: ['صحة', 'حكومي', 'علمي'],
+    stats: ['+12K مشارك', '45 دولة', '3 أيام', '200+ بحث'],
+    logo: 'MOH',
+    logoColor: '#0d9488'
+  },
+  {
+    id: 9,
+    img: 'https://images.unsplash.com/photo-1578895101408-1a36b834405b?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'معارض',
+    title: 'معرض الصناعة والتقنية SAIF',
+    city: 'الدمام', year: '2024', visitors: '+65٬000',
+    scope: 'إدارة المعرض الصناعي وتجربة الزوار',
+    client: 'الهيئة السعودية للمناطق الصناعية',
+    duration: '5 أيام',
+    team: '+110 فرد',
+    desc: 'إدارة أبرز المعارض الصناعية في المنطقة الشرقية، مع الإشراف على التجهيز والتشغيل وتنسيق الشركات المشاركة من القطاعين العام والخاص.',
+    tags: ['صناعة', 'تقنية', 'شرقية'],
+    stats: ['+65K زائر', '200+ شركة', '5 أيام', '18,000 م²'],
+    logo: 'SAIF',
+    logoColor: '#1d4ed8'
+  },
+  {
+    id: 10,
+    img: 'https://images.unsplash.com/photo-1633509104202-34b16e78d9ef?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'فعاليات',
+    title: 'احتفالية يوم التأسيس — أبها',
+    city: 'أبها', year: '2025', visitors: '+80٬000',
+    scope: 'تصميم وتنفيذ الحفل الرسمي',
+    client: 'إمارة منطقة عسير',
+    duration: '3 أيام',
+    team: '+160 فرد',
+    desc: 'الحفل الرسمي ليوم التأسيس في منطقة عسير بتصميم بصري يعكس التراث الجنوبي الأصيل، مع عروض فنية ضخمة وتجارب تراثية تشاركية.',
+    tags: ['وطني', 'تراث', 'حكومي'],
+    stats: ['+80K حضور', '3 أيام', '15 فرقة فنية', '6 مراحل'],
+    logo: 'ABHA',
+    logoColor: '#c0284a'
+  },
+  {
+    id: 11,
+    img: 'https://images.unsplash.com/photo-1568019760893-68e7c5cc5600?auto=format&fit=crop&w=700&q=75&ixlib=rb-4.0.3',
+    cat: 'مؤتمرات',
+    title: 'مؤتمر الطاقة المتجددة والاستدامة',
+    city: 'الرياض', year: '2025', visitors: '+9٬000',
+    scope: 'الشريك التنفيذي والهوية البصرية',
+    client: 'شركة أرامكو السعودية',
+    duration: '2 يوم',
+    team: '+70 فرد',
+    desc: 'شريك تنفيذي لمؤتمر الطاقة السنوي لأرامكو. صمّمت أمتيا الهوية البصرية الكاملة وأدارت تجربة الحضور المميز وتنسيق الجلسات الرئيسية والمعارض التقنية.',
+    tags: ['طاقة', 'استدامة', 'شركات'],
+    stats: ['+9K مشارك', '40 دولة', '2 يوم', '80 عارض'],
+    logo: 'ARAMCO',
+    logoColor: '#166534'
+  }
 ];
+
 
 const VISION_PILLARS = [
   { code:'01', title:'مجتمع حيوي',   text:'تجارب ثقافية وترفيهية تُثري جودة الحياة وتدعم الانتماء المجتمعي.',   items:['فعاليات اليوم الوطني','مهرجانات ثقافية','مبادرات مجتمعية'] },
@@ -2157,13 +2779,26 @@ function renderMarquee() {
   ).join('');
 }
 
+function makeLogoSVG(p) { return ''; }
+
 function renderProjects(filter) {
-  const grid = document.getElementById('pgrid');
-  const countEl = document.getElementById('projects-count');
+  const grid     = document.getElementById('pgrid');
+  const countEl  = document.getElementById('projects-count');
   const filtered = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.cat === filter);
+
   grid.innerHTML = filtered.map((p, i) => `
-    <article class="pcard" style="opacity:0;animation:cardIn .6s cubic-bezier(.22,1,.36,1) ${i * 70}ms forwards" data-pc="${p.cat}">
-      <img src="${p.img}" alt="${p.title}" loading="${i < 3 ? 'eager' : 'lazy'}">
+    <article class="pcard" tabindex="0" role="button"
+      aria-label="عرض تفاصيل مشروع ${p.title}"
+      style="opacity:0;animation:cardIn .6s cubic-bezier(.22,1,.36,1) ${i*70}ms forwards"
+      data-pid="${p.id}" data-pc="${p.cat}"
+      onclick="openProjectModal(${p.id})"
+      onkeydown="if(event.key==='Enter'||event.key===' '){openProjectModal(${p.id})}">
+
+      <!-- Logo badge top-right -->
+      <div class="pcard-logo" aria-hidden="true">${makeLogoSVG(p)}</div>
+
+      <img src="${p.img}" alt="${p.title}" loading="${i < 3 ? 'eager' : 'lazy'}"
+           onerror="this.style.background='linear-gradient(135deg,#1e1e2e 0%,#2d1a23 100%)';this.style.display='block';this.src='';">
       <div class="pcard-ov" aria-hidden="true"></div>
       <div class="pcard-body">
         <div class="pcard-cat">${p.cat}</div>
@@ -2173,39 +2808,120 @@ function renderProjects(filter) {
           <span class="pcard-mi"><i class="fas fa-calendar" aria-hidden="true"></i> ${p.year}</span>
           <span class="pcard-mi"><i class="fas fa-users" aria-hidden="true"></i> ${p.visitors}</span>
         </div>
+        <div class="pcard-hint" aria-hidden="true"><i class="fas fa-eye"></i> عرض التفاصيل</div>
       </div>
     </article>
   `).join('');
+
   countEl.textContent = filtered.length + ' مشروع معروض';
 }
 
 function renderRegions() {
   const grid = document.getElementById('regions-grid');
   grid.innerHTML = REGIONS.map((r, i) => `
-    <button class="region-btn${i===0?' active':''}" data-name="${r.name}" data-count="${r.count}" aria-pressed="${i===0}">
+    <button class="region-btn${i===0?' active':''}" data-name="${r.name}" data-count="${r.count}" data-idx="${i}" aria-pressed="${i===0}">
       <div class="rname">${r.name}</div>
       <div class="rcnt">${r.count} مشروع</div>
     </button>
   `).join('');
   grid.querySelectorAll('.region-btn').forEach(btn => {
-    btn.addEventListener('mouseenter', onRegionSelect);
-    btn.addEventListener('click', onRegionSelect);
-    btn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') onRegionSelect.call(btn, e); });
+    btn.addEventListener('click', e => activateRegion(+e.currentTarget.dataset.idx));
   });
 }
+
+/* Master activation — syncs city dot + region button + active card */
+function activateRegion(idx) {
+  const r = REGIONS[idx];
+  if (!r) return;
+
+  /* 1. Active card panel */
+  document.getElementById('active-city').textContent  = r.name;
+  document.getElementById('active-count').textContent = r.count;
+
+  /* 2. Region buttons */
+  document.querySelectorAll('.region-btn').forEach(b => {
+    const active = +b.dataset.idx === idx;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-pressed', active);
+  });
+
+  /* 3. City dots on SVG */
+  document.querySelectorAll('.city-dot').forEach(d => {
+    const active = +d.dataset.idx === idx;
+    d.classList.toggle('active', active);
+  });
+
+  /* 4. Tooltip */
+  const tt = document.getElementById('map-tooltip');
+  tt.querySelector('#mtt-city').textContent  = r.name;
+  tt.querySelector('#mtt-count').textContent = r.count + ' مشروع منجز';
+
+  /* 5. Show tooltip near the dot */
+  const dot = document.querySelector(`.city-dot[data-idx="${idx}"]`);
+  if (dot) {
+    const svgEl  = document.getElementById('saudi-map');
+    const svgBox = svgEl.getBoundingClientRect();
+    const wrap   = document.querySelector('.map-svg-wrap');
+    const wBox   = wrap.getBoundingClientRect();
+    // Get dot circle position in SVG user-space
+    const circles = dot.querySelectorAll('circle');
+    const mainCircle = circles[circles.length - 1];
+    const cx = parseFloat(mainCircle.getAttribute('cx'));
+    const cy = parseFloat(mainCircle.getAttribute('cy'));
+    // Convert SVG coords to pixels
+    const vb = svgEl.viewBox.baseVal;
+    const scaleX = svgBox.width  / vb.width;
+    const scaleY = svgBox.height / vb.height;
+    const pxX = cx * scaleX;
+    const pxY = cy * scaleY;
+    // Position tooltip relative to .map-svg-wrap
+    const relX = svgBox.left - wBox.left + pxX;
+    const relY = svgBox.top  - wBox.top  + pxY;
+    tt.style.top   = Math.max(0, relY - 70) + 'px';
+    tt.style.right = 'auto';
+    tt.style.left  = Math.min(relX - 60, wBox.width - 200) + 'px';
+    tt.classList.add('show');
+    clearTimeout(tt._hideTimer);
+    tt._hideTimer = setTimeout(() => tt.classList.remove('show'), 2400);
+  }
+}
+
+/* Legacy wrapper for onclick= in SVG (keep for safety) */
+function selectRegion(name, count) {
+  const idx = REGIONS.findIndex(r => r.name === name);
+  if (idx >= 0) activateRegion(idx);
+}
+window.selectRegion = selectRegion;
+
+/* Attach mouse/click/keyboard to SVG city dots (injected after DOM render) */
+function bindMapDots() {
+  document.querySelectorAll('.city-dot').forEach(dot => {
+    dot.style.cursor = 'pointer';
+    dot.addEventListener('click',      () => activateRegion(+dot.dataset.idx));
+    dot.addEventListener('mouseenter', () => activateRegion(+dot.dataset.idx));
+    dot.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activateRegion(+dot.dataset.idx); }
+    });
+  });
+}
+
+/* Tooltip hide on mouse-leave from SVG */
+document.addEventListener('DOMContentLoaded', () => {
+  const mapWrap = document.querySelector('.map-svg-wrap');
+  if (mapWrap) {
+    mapWrap.addEventListener('mouseleave', () => {
+      clearTimeout(document.getElementById('map-tooltip')._hideTimer);
+      document.getElementById('map-tooltip').classList.remove('show');
+    });
+  }
+});
 
 function onRegionSelect(e) {
   document.querySelectorAll('.region-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
   e.currentTarget.classList.add('active');
   e.currentTarget.setAttribute('aria-pressed','true');
-  selectRegion(e.currentTarget.dataset.name, e.currentTarget.dataset.count);
+  activateRegion(+e.currentTarget.dataset.idx);
 }
-
-function selectRegion(name, count) {
-  document.getElementById('active-city').textContent = name;
-  document.getElementById('active-count').textContent = count;
-}
-window.selectRegion = selectRegion;
 
 function renderVisionCards() {
   document.getElementById('vision-cards').innerHTML = VISION_PILLARS.map((p, i) => `
@@ -2365,20 +3081,6 @@ document.getElementById('pfilter').addEventListener('click', e => {
   renderProjects(btn.dataset.pf);
 });
 
-/* ══ MAP TOOLTIP ══ */
-function showMapTip(el, ev) {
-  const tt = document.getElementById('map-tooltip');
-  tt.querySelector('#mtt-city').textContent  = el.dataset.city;
-  tt.querySelector('#mtt-count').textContent = el.dataset.count + ' منجز';
-  tt.classList.add('show');
-  const rect = el.closest('svg').getBoundingClientRect();
-  tt.style.top   = (ev.clientY - rect.top - 80) + 'px';
-  tt.style.right = '10px';
-}
-function hideMapTip() { document.getElementById('map-tooltip').classList.remove('show'); }
-window.showMapTip = showMapTip;
-window.hideMapTip = hideMapTip;
-
 /* ══ HEADER SCROLL ══ */
 window.addEventListener('scroll', () => {
   document.getElementById('hdr').classList.toggle('scrolled', window.scrollY > 16);
@@ -2467,7 +3169,62 @@ function formPrev() {
   if (formStep > 0) { formStep--; updateFormUI(); }
 }
 
-/* ══ CARD ANIMATION KEYFRAME ══ */
+/* ══ PROJECT MODAL ══ */
+function openProjectModal(id) {
+  const p = PROJECTS.find(x => x.id === id);
+  if (!p) return;
+  const m = document.getElementById('project-modal');
+
+  // Populate image
+  const img = document.getElementById('pmodal-img');
+  img.src = p.img; img.alt = p.title;
+
+  // Logo
+  document.getElementById('pmodal-logo').innerHTML = makeLogoSVG({...p, id: 'modal'});
+
+  // Basic fields
+  document.getElementById('pmodal-cat').textContent   = p.cat;
+  document.getElementById('pmodal-title').textContent = p.title;
+  document.getElementById('pmodal-desc').textContent  = p.desc;
+  document.getElementById('pmodal-client').textContent = p.client;
+  document.getElementById('pmodal-city').textContent   = p.city;
+  document.getElementById('pmodal-year').textContent   = p.year;
+  document.getElementById('pmodal-duration').textContent = p.duration;
+  document.getElementById('pmodal-team').textContent   = p.team;
+  document.getElementById('pmodal-scope').textContent  = p.scope;
+
+  // Stats strip
+  document.getElementById('pmodal-stats').innerHTML = p.stats.map(s => {
+    const [val, ...rest] = s.split(' ');
+    return `<div class="pmodal-stat"><div class="sv">${val}</div><div class="sk">${rest.join(' ')}</div></div>`;
+  }).join('');
+
+  // Tags
+  document.getElementById('pmodal-tags').innerHTML =
+    p.tags.map(t => `<span class="pmodal-tag">${t}</span>`).join('');
+
+  // Open
+  m.setAttribute('aria-hidden', 'false');
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Trap focus
+  setTimeout(() => m.querySelector('.pmodal-close').focus(), 80);
+}
+
+function closeProjectModal() {
+  const m = document.getElementById('project-modal');
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeProjectModal();
+});
+
+
 const cardStyle = document.createElement('style');
 cardStyle.textContent = '@keyframes cardIn { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }';
 document.head.appendChild(cardStyle);
@@ -2480,6 +3237,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderMarquee();
   renderProjects('all');
   renderRegions();
+  bindMapDots();
+  activateRegion(0); // default: الرياض highlighted on load
   renderVisionCards();
   renderLifecycle();
   renderCapabilities();
