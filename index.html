@@ -1736,6 +1736,11 @@ ul, ol { list-style: none; }
   display: flex; flex-direction: column;
   transition: var(--t-med); cursor: pointer;
   overflow: hidden;
+  outline: none;
+}
+.insight-card:focus-visible {
+  border-color: var(--petroleum);
+  box-shadow: 0 0 0 3px var(--petroleum-ultra);
 }
 .insight-card::before {
   content: "";
@@ -3770,6 +3775,130 @@ ul, ol { list-style: none; }
   </div>
 </section>
 
+<!-- ════════ INSIGHT / ARTICLE DETAIL MODAL ════════ -->
+<div id="insight-modal" class="pmodal" role="dialog" aria-modal="true" aria-labelledby="insight-modal-title" aria-hidden="true">
+  <div class="pmodal-backdrop" onclick="closeInsightModal()"></div>
+  <div class="pmodal-sheet">
+
+    <button class="pmodal-close" onclick="closeInsightModal()" aria-label="إغلاق">
+      <i class="fas fa-times" aria-hidden="true"></i>
+    </button>
+
+    <!-- Hero image -->
+    <div class="pmodal-img-wrap">
+      <img id="insight-img" src="" alt="" class="pmodal-img">
+      <div class="pmodal-img-ov" aria-hidden="true"></div>
+      <div class="pmodal-img-body">
+        <span class="insight-modal-cat" id="insight-modal-cat"></span>
+        <h2 class="pmodal-title" id="insight-modal-title"></h2>
+        <div class="insight-modal-meta" id="insight-modal-meta"></div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="pmodal-body">
+      <p class="insight-modal-excerpt" id="insight-modal-excerpt"></p>
+      <div class="insight-modal-content" id="insight-modal-content"></div>
+      <div class="insight-modal-footer" id="insight-modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+.insight-modal-cat {
+  display: inline-block;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #1A1208;
+  background: var(--grad-gold);
+  padding: 5px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.insight-modal-meta {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  font-size: 12.5px; color: rgba(255,255,255,.7);
+  margin-top: 12px;
+  font-weight: 600;
+}
+.insight-modal-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.insight-modal-meta i { color: var(--gold-light); font-size: 12px; }
+
+.insight-modal-excerpt {
+  font-size: 16px; line-height: 1.9;
+  color: var(--ink);
+  font-weight: 600;
+  padding: 24px 28px;
+  background: var(--petroleum-ultra);
+  border-right: 4px solid var(--petroleum);
+  border-radius: var(--r-md);
+  margin-bottom: 32px;
+  position: relative;
+}
+.insight-modal-excerpt::before {
+  content: "“";
+  position: absolute;
+  top: -8px; right: 18px;
+  font-size: 56px;
+  color: var(--petroleum);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  line-height: 1;
+  opacity: .35;
+}
+
+.insight-modal-content { font-size: 15px; line-height: 1.95; color: var(--ink); }
+.insight-modal-content h3 {
+  margin-top: 32px; margin-bottom: 14px;
+  font-size: 1.3rem; font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -.015em;
+  position: relative; padding-right: 18px;
+}
+.insight-modal-content h3::before {
+  content: "";
+  position: absolute;
+  top: 50%; right: 0; transform: translateY(-50%);
+  width: 10px; height: 10px;
+  background: var(--grad-gold);
+  border-radius: 2px;
+}
+.insight-modal-content h3:first-child { margin-top: 0; }
+.insight-modal-content p {
+  color: var(--smoke);
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.insight-modal-footer {
+  margin-top: 36px; padding-top: 28px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.insight-modal-footer-note {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: var(--smoke);
+  font-weight: 500;
+}
+.insight-modal-footer-note i { color: var(--petroleum); font-size: 16px; }
+.insight-modal-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink-2); color: #fff;
+  padding: 11px 22px; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  transition: var(--t-fast);
+  border: 1px solid rgba(255,255,255,.06);
+}
+.insight-modal-cta:hover {
+  background: var(--petroleum);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+</style>
+
 <!-- ════════ PROJECT DETAIL MODAL ════════ -->
 <div id="project-modal" class="pmodal" role="dialog" aria-modal="true" aria-labelledby="pmodal-title" aria-hidden="true">
   <div class="pmodal-backdrop" onclick="closeProjectModal()"></div>
@@ -4204,9 +4333,103 @@ const AWARDS = [
 ];
 
 const INSIGHTS = [
-  { cat:'تحليل',    title:'مستقبل صناعة الفعاليات في المملكة حتى 2030',       read:'7 دقائق'  },
-  { cat:'ميداني',   title:'كيف تُغير التجارب التفاعلية معنى المعارض الحديثة', read:'5 دقائق'  },
-  { cat:'اتجاهات', title:'ثلاثة اتجاهات تُعيد رسم المؤتمرات الدولية',          read:'6 دقائق'  },
+  {
+    cat: 'تحليل',
+    title: 'مستقبل صناعة الفعاليات في المملكة حتى 2030',
+    read: '7 دقائق',
+    date: '12 مايو 2026',
+    author: 'فريق أبحاث أمتيا',
+    excerpt: 'تشهد صناعة الفعاليات في المملكة العربية السعودية تحولاً جذرياً تقوده رؤية 2030، حيث تتضاعف الميزانيات المخصصة للقطاع سنوياً وتتغير طبيعة الجمهور المستهدف. يستكشف هذا المقال الملامح الكبرى للمرحلة القادمة.',
+    img: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.0.3',
+    sections: [
+      {
+        h: 'مشهد صناعي بمليارات الريالات',
+        p: 'وفق أحدث بيانات الهيئة العامة للسياحة والتراث الوطني، تتجاوز القيمة السوقية لقطاع الفعاليات والمؤتمرات في المملكة 95 مليار ريال بنهاية 2025، بمعدل نمو سنوي مركّب يبلغ 12.4%. الرقم ليس مفاجئاً لمن يتابع حجم المشاريع الكبرى التي تنطلق في الرياض وجدة والعلا والدمام، لكنه يضع المملكة ضمن أكبر خمس أسواق للفعاليات في منطقة الشرق الأوسط وشمال أفريقيا.'
+      },
+      {
+        h: 'محاور النمو الثلاثة',
+        p: 'يقف خلف هذا النمو ثلاثة محاور رئيسية: أولها الفعاليات الوطنية الكبرى كرؤية السعودية 2030 ومبادرة "السعودية الخضراء"، ثانيها المعارض الدولية المتخصصة التي تستقطب الشركات العالمية، وثالثها النمو المتسارع للفعاليات الترفيهية المرتبطة بمواسم مثل موسم الرياض وموسم جدة. كل محور من هذه المحاور يخلق طلباً مختلفاً على الخبرات التشغيلية واللوجستية.'
+      },
+      {
+        h: 'التحوّل في الجمهور المستهدف',
+        p: 'لم يعد جمهور الفعاليات في المملكة محصوراً في النخبة. نحن نشهد توسّعاً ملحوظاً في الشرائح العمرية الشابة، وارتفاع نسبة الحضور النسائي إلى ما يقارب 47% في بعض الفعاليات الكبرى. هذا التحوّل يفرض على المنظمين إعادة تصميم تجربة الزائر من الصفر، مع التركيز على الإتاحة والراحة والسلامة.'
+      },
+      {
+        h: 'متطلبات الحوكمة والاستدامة',
+        p: 'مع نضوج السوق، بدأت الجهات التنظيمية تشترط معايير أكثر صرامة في الحوكمة البيئية والاجتماعية. اعتماد ISO 20121 لإدارة الفعاليات المستدامة لم يعد ميزة تنافسية، بل شرطاً للمشاركة في المناقصات الحكومية الكبرى. الاستدامة هنا تعني أيضاً إدارة الموارد المالية بشفافية وتقديم تقارير أثر قابلة للتحقق.'
+      },
+      {
+        h: 'ماذا يعني هذا لأمتيا وللقطاع؟',
+        p: 'نرى أن المرحلة القادمة ستُحدّد فيها معايير جديدة للتميّز المهني. الشركات التي ستقود لن تكون الأكبر حجماً فقط، بل الأكثر قدرة على دمج البيانات في قراراتها التشغيلية، والأسرع في تبنّي تقنيات التجربة الغامرة، والأعمق شراكة مع الجهات الوطنية. هذه هي المرتكزات التي نبني عليها استراتيجيتنا للأعوام الخمسة المقبلة.'
+      }
+    ]
+  },
+  {
+    cat: 'ميداني',
+    title: 'كيف تُغير التجارب التفاعلية معنى المعارض الحديثة',
+    read: '5 دقائق',
+    date: '28 أبريل 2026',
+    author: 'م. خالد العتيبي — مدير الإنتاج',
+    excerpt: 'لم تعد المعارض مكاناً لعرض المنتجات على رفوف ثابتة. الزائر اليوم يبحث عن تجربة، عن لحظة يلتقط فيها صورة ويتحدث عنها أسبوعاً كاملاً. نشارككم في هذا المقال خلاصة ما لاحظناه ميدانياً في 12 معرضاً خلال 2024 و2025.',
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.0.3',
+    sections: [
+      {
+        h: 'الزائر يتغيّر، والمساحة تتغيّر معه',
+        p: 'في كل معرض ننظمه، نقيس متوسط مدة بقاء الزائر أمام الجناح. قبل 2023 كان المتوسط 45 ثانية. اليوم، مع إضافة عنصر تفاعلي واحد على الأقل (شاشة لمس، تجربة واقع افتراضي، نقطة تصوير احترافية)، يرتفع المتوسط إلى 3 دقائق و20 ثانية. هذا الفرق الهائل يترجم مباشرة إلى فرص تحويل أعلى للعملاء وفرصة أعمق لبناء انطباع العلامة التجارية.'
+      },
+      {
+        h: 'أنماط التفاعل الأكثر نجاحاً',
+        p: 'من بين عشرات الأنماط التي جربناها، هناك ثلاثة تأتي في المقدمة باستمرار: المحاكاة التفاعلية التي تسمح للزائر بتجربة المنتج افتراضياً، والمنافذ متعددة الحواس التي تجمع بين الصوت والرائحة والحركة، وأخيراً تجارب السرد القصصي التي تأخذ الزائر في رحلة منظّمة عبر مراحل واضحة. كل نمط منها يحتاج فريق تصميم مختلف ومهارات تنفيذية متخصصة.'
+      },
+      {
+        h: 'البيانات هي العملة الحقيقية',
+        p: 'كل نقطة تفاعل في المعرض هي فرصة لجمع بيانات قابلة للتحليل. أكثر من 70% من العارضين الذين نخدمهم يطلبون اليوم لوحات تحكم تحليلية فورية تعرض من توقف أمام جناحهم، ومن أكمل رحلة التجربة، وكيف تفاعل مع كل عنصر. هذا المستوى من القياس لم يكن متاحاً قبل خمس سنوات، وهو الآن من المتطلبات الأساسية في أي مناقصة جادة.'
+      },
+      {
+        h: 'التحديات التشغيلية',
+        p: 'التجارب التفاعلية تضيف طبقات جديدة من التعقيد التشغيلي: فرق تقنية متخصصة في الموقع، خطط طوارئ للتعطّل، تكامل بين الموردين المتعددين، ومخاطر أعلى على الجدول الزمني. الحل ليس في تبسيط التجربة، بل في بناء فريق تشغيلي قادر على إدارة هذه التعقيدات بصمت تام أمام الزائر. هذا هو الفرق بين معرض "يشتغل" ومعرض "يبهر".'
+      },
+      {
+        h: 'نصيحة لمن يخطط لمعرضه القادم',
+        p: 'ابدأ من السؤال: ما الفعل الواحد الذي تريد أن يقوم به الزائر بعد خروجه؟ إذا كانت الإجابة "تصوير فيديو ومشاركته"، صمّم كل شيء حول تلك اللحظة. إذا كانت الإجابة "طلب عرض سعر"، صمّم رحلة واضحة من الانتباه إلى التحويل. التفاعل ليس هدفاً بحد ذاته، بل وسيلة لخدمة هدف محدد.'
+      }
+    ]
+  },
+  {
+    cat: 'اتجاهات',
+    title: 'ثلاثة اتجاهات تُعيد رسم المؤتمرات الدولية',
+    read: '6 دقائق',
+    date: '10 أبريل 2026',
+    author: 'أ. سارة الخالدي — مديرة التطوير',
+    excerpt: 'المؤتمرات الدولية تمر بأكبر تحوّل هيكلي منذ ظهور المؤتمرات الافتراضية في 2020. نستعرض في هذا المقال ثلاثة اتجاهات رئيسية نراها تتبلور بوضوح في فعاليات 2025-2026، وكيف تستجيب لها الجهات المنظمة الرائدة.',
+    img: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80&ixlib=rb-4.0.3',
+    sections: [
+      {
+        h: 'الاتجاه الأول: النموذج الهجين المتطوّر',
+        p: 'لم يعد "الهجين" مجرد بث مباشر للجلسات. النموذج الجديد يدمج الحضور الافتراضي في التصميم الفيزيائي للمؤتمر: شاشات عرض تفاعلية للحضور الافتراضي، وغرف تواصل مخصصة، ومسارات تعليمية مختلفة لكل نوع من الجمهور. بعض المؤتمرات الكبرى بدأت تحجز أكثر من 30% من مساحتها للحضور الافتراضي وحدهم، معتبرين إياهم جمهوراً كامل الأهلية وليسوا حضوراً ثانوياً.'
+      },
+      {
+        h: 'الاتجاه الثاني: المؤتمرات كمنصّات أعمال',
+        p: 'الجمهور لم يعد يكتفي بالحضور والاستماع. يطالب بفرص حقيقية لبناء علاقات عمل، لقاءات مع متحدثين، وعقود تشارك. المنظمون الأذكياء يدمجون هذه المتطلبات في التصميم: مناطق أعمال مخصصة، تطبيق مطابقة ذكي للاهتمامات، ومساحات مغلقة للاجتماعات الخاصة. الفارق في القيمة المضافة بين مؤتمر "محاضرات" ومؤتمر "منصة أعمال" يصل إلى 4 أضعاف في كثير من المؤشرات.'
+      },
+      {
+        h: 'الاتجاه الثالث: الاستدامة كمعيار أساسي',
+        p: 'أصبح قياس البصمة الكربونية للمؤتمر متطلباً تنظيمياً في أوروبا، ومتطلباً أخلاقياً في منطقتنا. الحلول تتراوح بين خيارات السفر المستدام، وتقليل المواد المطبوعة، واستخدام تقنيات العرض الرقمية، وصولاً إلى تصميم معارض قابلة لإعادة التدوير. الجهة المنظمة التي لا تملك خطة استدامة واضحة ستواجه تحديات متزايدة في استقطاب الرعاة والجهات المشاركة.'
+      },
+      {
+        h: 'انعكاس هذه الاتجاهات على المملكة',
+        p: 'المملكة في موقع قوي للاستفادة من هذه التحولات. بنيتنا التحتية الحديثة في الرياض وجدة، والاستثمار في الكوادر الوطنية الشابة، والدعم الحكومي للابتكار، كلها عوامل تعطي المنظمين المحليين أفضلية تنافسية. التحدي يبقى في بناء خبرات تشغيلية قادرة على إدارة التعقيد المتزايد لهذه النماذج الجديدة.'
+      },
+      {
+        h: 'كيف تستعد لمؤتمرك الدولي القادم',
+        p: 'أولاً: حدّد بوضوح هل تريد مؤتمراً هجيناً أم فيزيائياً أم رقمياً بالكامل. ثانياً: استثمر في بيانات الحضور منذ اليوم الأول للمشروع. ثالثاً: اختر فريقاً تشغيلياً يفهم النماذج الجديدة وليس فقط النماذج التقليدية. رابعاً: لا تتنازل عن الاستدامة، واعتبرها استثماراً طويل الأمد في سمعة الجهة وعلاقتها بالمجتمع.'
+      },
+      {
+        h: 'خلاصة',
+        p: 'المؤتمرات الدولية ليست في أزمة، بل تمر بمرحلة نضج. النموذج القديم (قاعة + متحدثين + جمهور جالس) لم يعد كافياً. المنظمون الذين يفهمون هذا التحوّل ويستثمرون فيه مبكراً، سيكونون الرواد في المرحلة القادمة. نحن في أمتيا نستثمر في هذه القدرات منذ سنوات، ونتائجنا في 2025-2026 تؤكد أن الاستثمار في الاتجاه الصحيح يؤتي ثماره.'
+      }
+    ]
+  }
 ];
 
 const FAQS = [
@@ -4456,16 +4679,71 @@ function renderAwards() {
 
 function renderInsights() {
   document.getElementById('insights-grid').innerHTML = INSIGHTS.map((p, i) => `
-    <article class="insight-card rv" style="transition-delay:${i*100}ms" role="listitem" tabindex="0">
+    <article class="insight-card rv" style="transition-delay:${i*100}ms" role="listitem" tabindex="0"
+      onclick="openInsightModal(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openInsightModal(${i})}" aria-label="اقرأ المقال: ${p.title}">
       <div class="insight-top">
         <span class="insight-cat">${p.cat}</span>
         <span>${p.read}</span>
       </div>
       <h3 class="insight-title">${p.title}</h3>
-      <div class="insight-link" aria-label="اقرأ المقال: ${p.title}">اقرأ المقال <i class="fas fa-arrow-left" aria-hidden="true"></i></div>
+      <div class="insight-link">اقرأ المقال <i class="fas fa-arrow-left" aria-hidden="true"></i></div>
     </article>
   `).join('');
   observeReveal(document.querySelectorAll('#insights-grid .rv'));
+}
+
+function openInsightModal(idx) {
+  const a = INSIGHTS[idx];
+  if (!a) return;
+  const m = document.getElementById('insight-modal');
+
+  const img = document.getElementById('insight-img');
+  img.src = a.img; img.alt = a.title;
+  img.onerror = function(){ this.style.background='linear-gradient(135deg,#0F4C5C,#1F2937)'; this.src=''; };
+
+  document.getElementById('insight-modal-cat').textContent = a.cat;
+  document.getElementById('insight-modal-title').textContent = a.title;
+  document.getElementById('insight-modal-excerpt').textContent = a.excerpt;
+
+  document.getElementById('insight-modal-meta').innerHTML = `
+    <span><i class="fas fa-user-edit" aria-hidden="true"></i> ${a.author}</span>
+    <span><i class="far fa-calendar" aria-hidden="true"></i> ${a.date}</span>
+    <span><i class="far fa-clock" aria-hidden="true"></i> ${a.read}</span>
+  `;
+
+  document.getElementById('insight-modal-content').innerHTML = a.sections.map(s => `
+    <h3>${s.h}</h3>
+    <p>${s.p}</p>
+  `).join('');
+
+  document.getElementById('insight-modal-footer').innerHTML = `
+    <div class="insight-modal-footer-note">
+      <i class="fas fa-lightbulb" aria-hidden="true"></i>
+      شاركنا رأيك في هذا المقال — نقدّر حوار القراء والمتخصصين.
+    </div>
+    <a href="#contact" class="insight-modal-cta" onclick="closeInsightModal()">
+      <i class="fas fa-paper-plane" aria-hidden="true"></i>
+      تواصل مع فريقنا
+    </a>
+  `;
+
+  m.setAttribute('aria-hidden', 'false');
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Reset scroll inside the modal sheet
+  const sheet = m.querySelector('.pmodal-sheet');
+  if (sheet) sheet.scrollTop = 0;
+
+  setTimeout(() => m.querySelector('.pmodal-close').focus(), 80);
+}
+
+function closeInsightModal() {
+  const m = document.getElementById('insight-modal');
+  if (!m) return;
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
 }
 
 function renderFaq() {
@@ -4678,7 +4956,10 @@ function closeProjectModal() {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeProjectModal();
+  if (e.key === 'Escape') {
+    closeProjectModal();
+    closeInsightModal();
+  }
 });
 
 
